@@ -1,0 +1,8 @@
+html, body {
+    font-family: 'Oswald', sans-serif !important;
+
+}
+
+.main-container{
+    min-height: 80vh !important;
+}

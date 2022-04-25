@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur SYMCOM{% endblock %}
+
+{% block body %}
+
+    {% include '_incs/_slider.html.twig' %}
+
+    <div class="containe pt-2">
+
+        <div class="p-5 bg-light py-5 rounded shadow-lg">
+                <h1 class="display-3">Bienvenue sur SYMCOM</h1>
+                <p class="lead">Nos nouveaux composants aux meilleurs prix</p>
+                <hr class="my-2">
+                <p>Voir nos produits</p>
+                <span class=""> <a name="" id="" class="btn btn-primary" href="{{ path ('app_product')}}" role="button">PRODUITS</a>
+                </span>
+                <p class="lead">
+                    <!-- Button trigger modal -->
+                    <div class="row">
+                        <button type="button" class="btn btn-success btn-lg"
+                        data-bs-toggle="modal" data-bs-target"#modelId">CONNEXION</button>
+                    <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">S'INSCRIRE</a>
+                </p>
+        </div> 
+        <div class="row py-5 rounded">
+
+            <div class="col-md-4 col-lg-4 col-xs-12 py-5 bg-success text-white text-center">
+            <i class="fa-solid fa-lock fa-2x"></i>
+            <p class="text-white text-center"> 
+            Produits de qualités, délivrés par des marques reconnues </p></div>
+            <div class="col-md-4 col-lg-4 col-xs-12 py-5 bg-warning text-white text-center">
+            <i class="fa-solid fa-check fa-2x"></i>
+            <p class="text-white text-center"> 
+            Nos moyens de paiement sont sécurisés sur tout notre site </p>
+            </div>
+            <div class="col-md-4 col-lg-4 col-xs-12 py-5 bg-primary text-white text-center">
+            <i class="fa-solid fa-truck-fast fa-2x"></i>
+            <p class="text-white text-center"> 
+            Livraison rapide assurée </p>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}
