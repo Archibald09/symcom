@@ -1,0 +1,20 @@
+{% extends 'base.html.twig'%}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+    {{ form_start (form, {'attr' : {'class' : 'col-lg-5 col-md-5 mx-auto my-5'}} ) }}
+
+        {{ form_row(form.email) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.lastname) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.confirm_password) }}
+
+        <button type="submit" class="btn btn-primary">Inscription</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}

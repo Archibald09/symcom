@@ -4,7 +4,7 @@
 
             {% for c in categories.findAll() %}
 
-                <a class="dropdown-item" href=""> {{ c.name|upper }}</a>
+                <a class="dropdown-item" href="{{path('app_product_category', {'id' : c.id}) }} "> {{ c.name|upper }}</a>
 
             {% endfor %}
             
