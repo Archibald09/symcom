@@ -4,10 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -24,7 +25,8 @@ class SecurityController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     
-    public function register(Request $request, UserPasswordEncoderInterface $hasher): Response
+    public function register(Request $request, UserPasswordEncoderInterface $hasher,
+     EntityManagerInterface $manager): Response
     {   
 
         $user = new User();
@@ -48,7 +50,18 @@ class SecurityController extends AbstractController
             
             $hash = $hasher->encodePassword($user, $user->getPassword());
 
-            dump($hash);
+            $user->setPassword($hash);
+            $user->setRoles(["ROLE_USER"]);
+
+            $manager->persist($user);
+            $manager->flush();
+
+           $this->addFlash('success', "Félicitation, votre compte a bien été créé \r \n Vous pouvez dès à présent vous connecter.");
+
+           dump($request);
+
+            return $this->redirectToRoute('app_login');
+
         }
 
         return $this->render('security/register.html.twig', [

@@ -20,26 +20,85 @@ class User implements UserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
+
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(
-        message : "Veuillez renseigner une adresse Email"
+        message : "Veuillez renseigner une adresse Email.",
+        groups : ['registration']
     )]
     #[Assert\Email(
-        message : "Veuillez saisir une adresse Email VALIDE."
+        message : "Veuillez saisir une adresse Email VALIDE.",
+        groups : ['registration']
     )]
-
 
     private $email;
 
     #[ORM\Column(type: 'string', length: 255)]
+
+    #[Assert\NotBlank(
+        message : 'Veuillez saisir votre prénom',
+        groups : ['registration']
+    )]
+
+    #[Assert\Length(
+        min:'2', max: '45', 
+        minMessage : 'Votre prénom doit comporter au moins 2 caractères', 
+        maxMessage : 'Votre prénom ne doit pas dépasser 45 caractères',
+        groups : ['registration']
+    )]
+
     private $username;
 
     #[ORM\Column(type: 'string', length: 255)]
+
+    #[Assert\NotBlank(
+        message : 'Veuillez saisir votre nom',
+        groups : ['registration']
+    )]
+
+    #[Assert\Length(
+        min:'2', max: '45', 
+        minMessage : 'Votre nom doit comporter au moins 2 caractères', 
+        maxMessage : 'Votre nom ne doit pas dépasser 45 caractères',
+        groups : ['registration']
+    )]
+
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
+
+    #[Assert\EqualTo(
+        propertyPath : 'password',
+        message : 'Les mots de passes ne correspondent pas',
+        groups : ['registration']
+    )]
+
+    #[Assert\Length(
+        min : '8', 
+        minMessage : 'Le mot de passe doit contenir au moins 8 caractères',
+        groups : ['registration']
+    )]
+
+    #[Assert\NotBlank(
+        message : 'Veuillez saisir un mot de passe',
+        groups : ['registration']
+
+    )]
+
     private $password;
-       
+
+    #[Assert\EqualTo(
+        propertyPath : 'password',
+        message : 'Les mots de passes ne correspondent pas',
+        groups : ['registration']
+        
+    )]
+
+    #[Assert\NotBlank(
+        message : 'Veuillez confirmer votre mot de passe',
+        groups : ['registration']
+    )]
+
     public $confirm_password;
  
     #[ORM\Column(type: 'json')]
@@ -99,12 +158,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): ?array
     {
         return $this->roles;
     }
 
-    public function setRoles (string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -122,8 +181,15 @@ class User implements UserInterface
 
     }
 
-    public function getUserIdentifier() {
-
+   /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
+
 
 }
