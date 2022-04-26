@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} La catégorie : {{ category.name }} {% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        {% for p in category.articles %}
+            {# {{ dump(product) }} #}
+
+           <div class="card bg-light mx-2 col-md-3 col-sm-5 col-xs-10 mb-3 shadow-sm" style="max-width: 20rem;">
+            <div class="card-header d-flex justify-content-center">
+                <img class="img-fluid" src="{{ p.picture }}">
+            </div>
+            <div class="card-body text-center">
+                <h4 class="card-title">{{ p.title }}</h4>
+                <p class="card-text">{{ p.content }}</p>
+                <small class="text-success"> Prix: {{ p.price }}€ </small>
+            </div>
+            <div class="row">
+            <small class="text-info text-center"><a href="#"> {{ p.category.name}}</a></small>
+            </div>
+
+            <div class="row justify-content-center">
+                <a class="btn btn-sm col-4 m-2 btn-light" href="{{path('app_show', {'id' : p.id}) }}"> Voir </a>
+                <a class="btn btn-sm col-4 m-2 btn-success" href="#"> Ajouter </a>
+            </div>
+        </div>
+    
+
+        {% endfor %}
+    
+    </div>
+</div>
+    
+{% endblock %}
