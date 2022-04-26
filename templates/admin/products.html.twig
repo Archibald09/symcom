@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des produits{% endblock %}
+
+{% block body %}
+
+    {# {{ dump(colonnes) }}
+
+    {{ dump(products) }} #}
+
+    <div class="container my-5">
+
+        <h2 class="text-center text-white bg-dark title mx-auto">Tous les articles enregistrés en base</h2>
+
+            <table class="table table-stripperv col-md-6">
+
+                <tr class="text-center">
+
+                    {% for row in colonnes %}
+
+                        <th> {{ row|upper }} </th>
+
+                    {% endfor %}
+
+                    <th>CATEGORY</th>
+                    <th></th>
+
+                </tr>
+
+
+                    {% for p in products %}
+
+                        <tr class="text-center">
+
+                            <td class="align-middle">{{ p.id }}</td>
+                            <td class="align-middle">{{ p.title }}</td>
+                            <td class="align-middle">{{ p.content }}</td>
+                            <td class="align-middle">{{ p.price }}</td>
+                            <td class="align-middle"> <img class="img-fluid" src="{{ p.picture }}"></td>
+                            <td class="align-middle">{{ p.category.slug }}</td>
+                            <td class="align-middle">
+                                <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+
+                            
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+                                
+                
+            
+            </table>
+
+
+    </div>
+
+{% endblock %}
