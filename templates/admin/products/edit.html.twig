@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %} BACKOFFICE: Modifier un produit {% endblock %}
+
+
+
+{% block body %}
+
+    <div class="container my-5">
+
+            <h2 class="display-4 text-center text-white bg-dark shadow-lg rounded col-7 mx-auto my-3">Modification du produit n°: {{ id }}</h1>
+
+            <div class="row justify-content-center my-5">
+
+                     {{ form_start(form,  {'attr' : { 'class' : 'col-lg-5 col-md-5 mx-auto py-5'}} ) }}
+
+                        {{ form_row(form.title, {'attr' : { 'placeholder' : 'Saisir un titre', "maxlength" : false, "pattern" : false}, 'label' : "Nom du produit" })}}
+                        {{ form_row(form.content, { 'label' : "Description du produit"}, {'attr' : { 'rows' : 12}})}}
+                        {{ form_row(form.price, { 'label' : "Prix du produit"})}}
+                        <div class="row justify-content-center mb-3">
+                        {{ form_row(form.picture, {'label' : "Photo du produit"})}}
+                        <small class="text-muted text-italic fs-italic">Vous pouvez télécharger une autre image </small>
+                        </div>
+                        
+                        {{ form_row(form.category, {'label' : "Catégorie du produit"})}}
+
+             
+                       <button type="submit" class="btn btn-success">Modifier le produit</button>
+                  
+                    {{ form_end(form) }}    
+
+            </div>
+
+
+    </div>
+
+
+{% endblock %}
