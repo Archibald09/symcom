@@ -36,7 +36,7 @@
                             <td class="align-middle">{{ p.title }}</td>
                             <td class="align-middle">{{ p.content }}</td>
                             <td class="align-middle">{{ p.price }}</td>
-                            <td class="align-middle"> <img class="img-fluid" src="{{ p.picture }}"></td>
+                            <td class="align-middle"> <img class="img-fluid" src="{{ asset('uploads/images/')}}{{ p.picture }}"></td>
                             <td class="align-middle">{{ p.category.slug }}</td>
                             <td class="align-middle">
                                 <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>

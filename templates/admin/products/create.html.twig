@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BACKOFFICE: Ajouter un produit {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="display-4 text-center text-white bg-dark shadow-lg rounded col-7 mx-auto"></h1>
+
+        <div class="row justify-content-center my-5">
+
+            {{ form_start(form, {'attr' : {'class' : 'col-lg-5 col-md5 mx-auto' }} ) }}
+
+            {{ form_row(form.title, {'attr' : { 'placeholder' : 'Saisir un titre', "maxlength" : false, "pattern" : false}, 'label' : "Nom du produit"})}}
+            {{ form_row(form.content, { 'label' : "Description du produit"}, { 'attr' : { 'rows' : 12}})}}
+            {{ form_row(form.price, { 'label' : "Prix du produit"})}}
+            {{ form_row(form.picture, { 'label' : "Photo du produit"})}}
+            {{ form_row(form.category, { 'label' : "Photo du produit"})}}
+            <button type="submit" class="btn btn-primary">Inscription</button>
+
+            {{ form_end (form)}}
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
