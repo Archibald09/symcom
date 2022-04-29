@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+
+<div class="container col-md-10 col-lg-12 col-xs-12">
+
+    <table class="table table-striped">
+        <thead class="bg-light">
+            <tr class="align-middle text-center">
+                <th>PRODUIT</th>
+                <th>PHOTO</th>
+                <th>PRIX</th>
+                <th>QUANTITE</th>
+                <th>TOTAL</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for item in panier %}
+                <tr class="align-middle text-center">
+                    <td>{{ item.product.title }}</td>
+                    <td> <img class="img-fluid" src="{{ item.product.picture }}"></td>
+                    <td>{{ item.product.price }}€</td>
+                    <td>{{ item.qte}}</td>
+                    <td> {{ item.qte  *  item.product.price }}€</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+    
+
+</div>
+
+{% endblock %}

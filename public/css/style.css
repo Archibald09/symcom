@@ -6,3 +6,9 @@ html, body {
 .main-container{
     min-height: 80vh !important;
 }
+
+.comment.overflow{
+    overflow-y: scroll !important;
+    overflow-x: visible !important;
+    max-height: 25 vh !important;
+}

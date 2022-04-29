@@ -13,6 +13,7 @@
         <h2 class="text-center text-white bg-dark title mx-auto">Tous les articles enregistrés en base</h2>
 
             <table class="table table-stripperv col-md-6">
+                <a href=" {{ path ('admin_products_create')}}" class="btn btn-primary">Ajouter un produit</a>
 
                 <tr class="text-center">
 
@@ -39,9 +40,9 @@
                             <td class="align-middle"> <img class="img-fluid" src="{{ asset('uploads/images/')}}{{ p.picture }}"></td>
                             <td class="align-middle">{{ p.category.slug }}</td>
                             <td class="align-middle">
-                                <a href="" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{{ path ('admin_products_edit', {'id' : p.id} ) }}" class="btn btn-sm btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <a onclick="return(confirm('Voulez-vous vraiment supprimer cet utilisateur ?'))" href="{{ path ('admin_products_delete', {'id' : p.id} ) }}" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i></a>
 
                             
                             </td>

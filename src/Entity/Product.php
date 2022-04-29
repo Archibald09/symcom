@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -15,28 +18,34 @@ class Product
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message : "Veuillez saisir un nom pour ce produit")]
+    #[Assert\NotBlank(message : 'Veuillez entrer un titre')]
     private $title;
 
     #[ORM\Column(type: 'text')]
-    #[Assert\NotBlank(message : "Veuillez saisir une description pour ce produit")]
+    #[Assert\NotBlank(message : 'Veuillez entrer une description')]
     private $content;
 
     #[ORM\Column(type: 'float')]
-    #[Assert\NotBlank(message : "Veuillez saisir un prix pour ce produit")]
+    #[Assert\NotBlank(message : 'Veuillez saisir un prix')]
     private $price;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message : "Veuillez ajouter une image pour ce produit")]
+    #[Assert\NotBlank(message : 'Merci d\'insérer ou modifier la photo')]
     private $picture;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotBlank(message : "Veuillez choisir une catégorie pour ce produit")]
+    #[Assert\NotBlank(message : 'Veuillez choisir une catégorie')]
     private $category;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class)]
+    private $comments;
 
-    
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -98,6 +107,36 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
+        }
 
         return $this;
     }
