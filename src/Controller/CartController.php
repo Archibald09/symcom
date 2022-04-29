@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Cart\CartService;
+use App\Form\PurchaseType;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -14,7 +17,7 @@ class CartController extends AbstractController
     /**
      * @Route("/cart/add/{id}", name="cart_add")
      */
-    public function add($id, ProductRepository $productRepo, CartService $cartService): Response
+    public function add($id, ProductRepository $productRepo, CartService $cartService, Request $request): Response
     {
        
         //1 est-ce le produit existe en bdd?
@@ -50,6 +53,12 @@ class CartController extends AbstractController
 
             $this->addFlash('success', "Produit ajouté");
 
+            if($request->query->get('stay'))
+            {
+                return $this->redirectToroute('cart_show');
+            }
+            
+
           return $this->redirectToRoute('app_show', [
                 'id' => $id
             ]);
@@ -60,16 +69,65 @@ class CartController extends AbstractController
     /**
      * @Route("/cart", name="cart_show")
      */
-    public function showCart(CartService $cartService) : Response
+    public function showCart(CartService $cartService, SessionInterface $session) : Response
     {
-         
+
+        $form = $this->createForm(PurchaseType::class);
+
+
         $panier = $cartService->getDetail();
 
         $total = $cartService->getTotal();
+
+       
         
         return $this->render("cart/index.html.twig", [
             'panier' => $panier,
-            'total' => $total
+            'total' => $total,
+            'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/cart/delete/{id}", name="cart_delete")
+     */
+      public function deleteProduct($id, ProductRepository $productRepo, CartService $cartService) : Response
+      {
+           $product = $productRepo->find($id);
+           
+           if(!$product)
+           {
+               throw $this->createNotFoundException('Cet article n\'existe pas');
+           }
+
+           $cartService->remove($product->getId());
+
+           $this->addFlash("success", "Le produit " . $product->getId() . " a bien été supprimé");
+
+          return $this->redirectToroute('cart_show');
+      }  
+
+
+      /**
+       * @Route("/cart/remove-one/{id}", name="cart_remove_one", requirements= {"id": "\d+"})
+       */
+        public function decrement($id, ProductRepository $productRepo,CartService $cartService) : Response
+        {
+
+            $product = $productRepo->find($id);
+           
+            if(!$product)
+            {
+                throw $this->createNotFoundException('Cet article est en quantité limité');
+            }
+ 
+            $cartService->decrement($product->getId());
+ 
+            $this->addFlash("success", "Le produit " . $product->getId() . " a bien été retiré");
+ 
+
+            return $this->redirectToroute('cart_show');
+        }
 }
+
+

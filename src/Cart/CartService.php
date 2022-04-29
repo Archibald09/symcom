@@ -19,6 +19,11 @@ class CartService {
             $this->productRepo = $productRepo;
         }
 
+        public function save($cart)
+        {
+            $this->session->set('cart', $this->$cart);
+        }
+
         //On créer on fonction add avec tous le traitement nécéssaire afin de ne pas surcharger le controller "CartController"
         public function add(int $id) //On demande à récupéré l'id d'un produit
         {
@@ -57,7 +62,7 @@ class CartService {
                return;
            }
 
-           if($cart[$id] === 1)
+           if($cart[$id] == 1)
            {
                $this->remove($id);
                return;
