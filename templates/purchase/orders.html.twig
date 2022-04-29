@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confimation{% endblock %}
+
+{% block body %}
+
+    <div class="container col-7 mx-auto">
+    
+    <table class="table table-striped sm">
+        <thead class="text-center align-middle">
+            <tr>
+                <th>N° COMMANDE</th>
+                <th>ADRESSE</th>
+                <th>DATE DE COMMANDE</th>
+                <th>ARTICLE</th>
+                <th>TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for p in purchases %}
+                <tr>
+                    <td>{{p.id}}</td>
+                    <td>{{p.adress}} <small class="fst-italic">{{p.postalCode}}{{p.city}} </small></td>
+                    <td>{{p.purchaseAt|date('Y/m/d H:i:s')}}</td>
+
+                    <td>
+                    {% for item in p.purchasedetails %}
+                    <ul>
+                        <li class="list-group-item" {{ item. quantity}}x{{ item.product.price }} : {{ item.total}} </li>
+                    </ul>
+                    {% endfor %}
+                    </td>
+                    <td class="fw-bold">{{p.total}}€</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td scope="row"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+    </table>
+    
+
+    </div>
+
+{% endblock %}

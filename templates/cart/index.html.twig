@@ -10,6 +10,18 @@
 
 <div class="container col-md-10 col-lg-12 col-xs-12 my-5">
 
+
+        {% if panier|length == 0 %}
+  <h2 class="text-center alert alert-info">Votre panier est vide 
+
+  <a href="{{path('app_product') }}" class="btn btn-primary"> Vers la boutique </a> 
+
+  <a href="{{path('app_login') }}" class="btn btn-primary">Connexion </a> </h2>
+
+  
+  </h2>
+        {% else %}
+
         <table class="table table-striped my-5">
             <thead class="bg-light">
                 <tr class="align-middle text-center">
@@ -45,33 +57,40 @@
                 {% endfor %}
             </tbody>
             <tfoot>
-            
                 <tr class="align-middle">
-                    <td class="fw-bold" colspan="4"> MONTANT TOTAL</td>
-                    <td class="fw-bold h-5" colspan="2"> {{ total}}€</td>
-            
+                      <td class="fw-bold" colspan="4"> MONTANT TOTAL</td>+
+                      <td class="fw-bold h-5" colspan="2"> {{ total}}€ </td>
+                </tr>
             </tfoot>
         </table>
 
+        {% endif %}
+
         <hr>
+
     {% if app.user %}
+    {% if panier|length > 0 %}
         <h2 class="text-center alert alert-primary">Confirmez votre commande </h2>
 
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'action': path('purchase_confirm') }}) }}
 
-                {{form_row(form.FullName)}}
-                {{form_row(form.adress)}}
-                {{form_row(form.postalCode)}}
-                {{form_row(form.city)}}
+                {{ form_row(form.FullName) }}
+                {{ form_row(form.adress) }}
+                {{ form_row(form.postalCode) }}
+                {{ form_row(form.city) }}
 
-                <button class="btn btn-primary" type="submit">Valider la commande</button>
+                <button class="btn btn-primary" type="submit">Valider la commande </button>
 
             {{ form_end(form) }}
-    {% else %}
+ {% endif %}
+   {% else %}
 
-        <h2 class="text-center alert alert-warning">Veuillez vous connecter pour valider votre commande<a class="btn btn-primary"></a></h2>
+        {% if panier|length > 0 %}
+        <h2 class="text-center alert alert-warning">Veuillez vous connecter pour valider votre commande <a href="{{path('app_login') }}" class="btn btn-primary">Connexion </a> </h2>
+        {% endif %}
 
-    {% endif %}
+   {% endif %}      
+
         
 
 </div>
