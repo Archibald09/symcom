@@ -1,37 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Votre panier{% endblock %}
 
 {% block body %}
 
-<div class="container col-md-10 col-lg-12 col-xs-12">
 
-    <table class="table table-striped">
-        <thead class="bg-light">
-            <tr class="align-middle text-center">
-                <th>PRODUIT</th>
-                <th>PHOTO</th>
-                <th>PRIX</th>
-                <th>QUANTITE</th>
-                <th>TOTAL</th>
-                
-            </tr>
+ <div style="min-height: 8vh !important;" class="">
+ </div>   
+
+<div class="container col-md-10 col-lg-12 col-xs-12 my-5">
+
+        <table class="table table-striped my-5">
+            <thead class="bg-light">
+                <tr class="align-middle text-center">
+                    <th>PRODUIT</th>
+                    <th>PHOTO</th>
+                    <th>PRIX</th>
+                    <th>QUANTITE</th>
+                    <th>TOTAL</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
 
                 {% for item in panier %}
                 <tr class="align-middle text-center">
                     <td>{{ item.product.title }}</td>
-                    <td> <img class="img-fluid" src="{{ item.product.picture }}"></td>
+                    <td> <img class="img-fluid" src="{{ item.product.picture }}"> </td>
                     <td>{{ item.product.price }}€</td>
-                    <td>{{ item.qte}}</td>
-                    <td> {{ item.qte  *  item.product.price }}€</td>
+
+                    <td>
+
+                     <a href="{{ path('cart_add', {'id': item.product.id})}}?stay=true" class="btn btn-sm btn-primary"> <i class=" fas fa-plus"> </i> </a>
+
+                     {{ item.qte}}
+
+                      <a href="{{ path('cart_remove_one', {'id': item.product.id})}}" class="btn btn-sm btn-primary"> <i class=" fas fa-minus"> </i> </a>
+
+
+                    </td>
+                    <td> {{ item.getTotal()}}€ </td>
+                    <td> <a class="btn btn-danger" href="{{ path('cart_delete', {'id' : item.product.id}) }}"> <i class="fa-solid fa-trash"> </i> </a> </td>
                 </tr>
                 {% endfor %}
             </tbody>
-    </table>
-    
+            <tfoot>
+            
+                <tr class="align-middle">
+                    <td class="fw-bold" colspan="4"> MONTANT TOTAL</td>
+                    <td class="fw-bold h-5" colspan="2"> {{ total}}€</td>
+            
+            </tfoot>
+        </table>
+
+        <hr>
+    {% if app.user %}
+        <h2 class="text-center alert alert-primary">Confirmez votre commande </h2>
+
+            {{ form_start(form) }}
+
+                {{form_row(form.FullName)}}
+                {{form_row(form.adress)}}
+                {{form_row(form.postalCode)}}
+                {{form_row(form.city)}}
+
+                <button class="btn btn-primary" type="submit">Valider la commande</button>
+
+            {{ form_end(form) }}
+    {% else %}
+
+        <h2 class="text-center alert alert-warning">Veuillez vous connecter pour valider votre commande<a class="btn btn-primary"></a></h2>
+
+    {% endif %}
+        
 
 </div>
+
 
 {% endblock %}
